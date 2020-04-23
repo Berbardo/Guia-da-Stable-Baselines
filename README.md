@@ -10,16 +10,17 @@ Entretanto, caso você não queira ver os exemplos em código, o texto do guia e
 
 ## Índice
 
-- [O que é Stable Baselines?](#o-que-é-stable-baselines?)
-- [Instalação](#instalação)
-- [Como usar Stable Baselines?](#Como-usar-Stable-Baselines?)
-  - [Gym](#Gym)
-  - [O que é um Ambiente?](#O-que-é-um-Ambiente?)
-  - [Como Funciona um Ambiente do Gym?](#Como-Funciona-um-Ambiente-do-Gym?)
-  - [Criando um Ambiente](#Criando-um-Ambiente)
-  - [Criando um Agente](#Criando-um-Agente)
-  - [Rodando um Episódio](#Rodando-um-Episódio)
-  - [Treinamento](#Treinamento)
+- [👾 Guia da Stable Baselines](#-guia-da-stable-baselines)
+  - [O que é Stable Baselines?](#o-que-é-stable-baselines-)
+  - [Instalação](#instalação)
+  - [Como usar Stable Baselines?](#Como-usar-Stable-Baselines-)
+    - [Gym](#Gym)
+    - [O que é um Ambiente?](#O-que-é-um-Ambiente-)
+    - [Como Funciona um Ambiente do Gym?](#Como-Funciona-um-Ambiente-do-Gym-)
+    - [Criando um Ambiente](#Criando-um-Ambiente)
+    - [Criando um Agente](#Criando-um-Agente)
+    - [Rodando um Episódio](#Rodando-um-Episódio)
+    - [Treinamento](#Treinamento)
 
 ## O que é Stable Baselines?
 
