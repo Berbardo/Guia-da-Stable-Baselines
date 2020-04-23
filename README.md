@@ -18,6 +18,8 @@ Entretanto, caso você não queira ver os exemplos em código, o texto do guia e
   - [Como Funciona um Ambiente do Gym?](#Como-Funciona-um-Ambiente-do-Gym?)
   - [Criando um Ambiente](#Criando-um-Ambiente)
   - [Criando um Agente](#Criando-um-Agente)
+  - [Rodando um Episódio](#Rodando-um-Episódio)
+  - [Treinamento](#Treinamento)
 
 ## O que é Stable Baselines?
 
@@ -80,6 +82,10 @@ ambiente.close()                                                # Fecha o ambien
 
 Para utilizar um dos ambientes do Gym, nós utilizamos a função ```gym.make()```, passando o nome do ambiente desejado como parâmetro e guardando seu valor retornado em uma variável que chamaramos de ```env```. A lista com todos os ambiente pode ser encontrada [aqui](https://gym.openai.com/envs/#classic_control).
 
+```python
+env = gym.make("CartPole-v1")
+```
+
 #### Exemplo - CartPole
 
 Para exemplificar, vamos pensar no ambiente ```CartPole-v1```, um ambiente bem simples que modela um pêndulo invertido em cima de um carrinho buscando seu estado de equilíbrio.
@@ -108,3 +114,106 @@ Dessa forma, a cada instante recebemos uma lista da observação com o seguinte 
 Já o **Espaço de Ação** é composto por duas ações únicas: mover o carrinho para a **esquerda** ou para a **direita**.
 
 Quando queremos mover o carrinho para a esquerda, fazemos um `env.step(0)`; quando queremos movê-lo para a direita, enviamos um `env.step(1)`
+
+### Criando um Agente
+
+Depois de escolhermos nosso ambiente, já podemos pensar em qual algoritmo de agente queremos usar.
+
+A biblioteca disponibiliza algoritmos de diversos tipos, como *Policy Gradients*, *Actor Critics*, *DQN*, etc. Nem todos eles suportam todos os tipos de ambientes, então é recomendável dar uma olhada na [página oficial dos algoritmos](https://stable-baselines.readthedocs.io/en/master/guide/algos.html).
+
+#### Inicialização
+
+Todos os algoritmos são inicializados de uma forma parecida, nós instanciamos eles com alguns parâmetros em comum: ```policy```, que define a arquitetura da rede neural e ```env```, que define o ambiente no qual o agente vai treinar. Assim, a inicialização segue o seguinte formato:
+
+```python
+agente = ALGORITMO(policy, env)
+```
+
+Como exemplo, vamos criar um **ACER**, um tipo de Actor-Critic:
+
+```python
+from stable_baselines import ACER
+
+model = ACER('MlpPolicy', env, seed=1, verbose=1)
+```
+
+Todos os agentes também possuem alguns métodos em comuns bem importantes de se conhecer:
+
+<br>
+
+| Método        | Funcionalidade                          |
+| :------------ |:--------------------------------------- |
+| learn()       | Treina o agente                         |
+| predict(obs)  | Escolhe uma ação com base na observação |
+| save(caminho) | Salve o agente                          |
+| load(caminho) | Carrega o agente                        |
+
+<br>
+
+Dessa forma, se quisermos escolher a próxima ação do nosso agente, nós rodamos:
+
+```python
+agente.predict(observação)
+```
+
+### Rodando um Episódio
+
+Bom, agora que já temos nosso agente e nosso ambiente, já podemos rodar nosso primeiro episódio!
+
+Para isso, vamos criar uma função `run_episode` para simplificar o processo:
+
+```python
+# A função recebe o ambiente e o agente como parâmetros
+def run_episode(env, model, render=False):
+    # Primeiro, inicializamos o ambiente e guardamos a observação inicial em 'obs'
+    obs = env.reset()
+
+    # Guarda se o episódio terminou ou não
+    done = False
+    
+    # Loop do episódio
+    while not done:
+        # Nosso modelo prediz a ação 'action' a ser tomada com base na nossa observação 'obs'
+        action, _states = model.predict(obs)
+        
+        # Tomamos a ação 'action', e recebemos uma nova observação 'obs', uma recompensa 'reward'
+        # e se o episódio terminou 'done'
+        obs, reward, done, info = env.step(action)
+        
+        # Renderiza o ambiente, caso desejado
+        if render:
+            env.render()
+            
+        # Finaliza o episódio, caso tenha terminado
+        if done:
+            break
+    
+    # Quando terminado, fechamos o ambiente
+    env.close()
+```
+
+Para rodar o episódio, basta fazer:
+
+```python
+run_episode(env, model, render=True)
+```
+
+Se você tentou rodar um episódio, provavelmente o resultado não foi tão bom assim. Isso é porque precisamos treinar nosso agente para que ele saiba as melhores ações a se tomar.
+
+### Treinamento
+
+O treinamento do agente acontece de maneira bem simples, basta rodar o método `.learn()` com a quantidade de instantes de tempo `total_timesteps` que desejamos treinar.
+
+Ao longo do treinamento, nosso agente vai mostrando algumas informações importantes no ouput, como a duração média dos episódios `mean_episode_length`, a entropia `entropy`, o custo da função de custo `loss`, etc.
+
+```python
+model.learn(total_timesteps=20020)
+```
+
+Depois de treinarmos o nosso agente, podemos rodar mais um episódio para ver como ele melhorou.
+
+```python
+run_episode(env, model, render=True)
+```
+
+Esse é todo o conhecimento necessário para resolver mais ambientes simples. Entretanto, ainda existem várias outras funcionalidades muito interessantes da biblioteca que valem a pena aprender.
