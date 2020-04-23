@@ -30,7 +30,17 @@ A **Stable Baselines** é uma biblioteca de Aprendizagem por Reforço que implem
 
 ## Instalação
 
+Para instalar a biblioteca com o `pip`, basta rodar:
+
+```
+pip install stable-baselines
+```
+
+OBS: A biblioteca não suporta Tensorflow 2 ainda, e nem roda em Python 2.
+
 ## Como usar Stable Baselines?
+
+Com Stable Baselines, o processo de criar e treinar um agente é bem simples. Entretanto, caso você não saiba muito de Aprendizagem por Reforço, é primeiro preciso passar por alguns conhecimentos básicos.
 
 ### Gym
 
