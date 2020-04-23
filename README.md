@@ -6,6 +6,8 @@ O guia completo encontra-se neste notebook:
 
 ### [Guia Completo em Notebook](Guia%20da%20Stable%20Baselines.ipynb)
 
+### [Guia Completo no Google Colaboratory](https://colab.research.google.com/drive/1FelEEdTxk-c-j-2fD1WoZQJFz03G0A4O#offline=true&sandboxMode=true)
+
 Entretanto, caso você não queira ver os exemplos em código, o texto do guia está presente a seguir.
 
 ## Índice
